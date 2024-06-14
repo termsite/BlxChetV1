@@ -102,14 +102,32 @@ MainSection:NewButton("Back/Front Flip | Press Z/X", "ButtonInfo", function()
     loadstring(game:HttpGet('https://pastebin.com/raw/7wDcPtLk'))
 end)
 
-MainSection:NewToggle("Super-Human", "go fast and jump high", function(state)
-    if state then
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 60
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 60
+MainSection:NewButton("Super-Human", "go fast and jump high", function(key)
+    local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local walkspeed = 16 -- default walkspeed value
+
+-- Function to toggle walkspeed
+local function toggleWalkspeed()
+    if humanoid.WalkSpeed == 16 then
+        humanoid.WalkSpeed = 60
     else
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
+        humanoid.WalkSpeed = 16
     end
+end
+
+-- Function to handle key press
+local function onKeyPress(input)
+    if input.KeyCode == Enum.KeyCode.L then
+        toggleWalkspeed()
+    end
+end
+
+-- Connect key press event
+game:GetService("UserInputService").InputBegan:Connect(onKeyPress)
+
 end)
 
 -- NEW TAB
@@ -12745,5 +12763,5 @@ local infoSection = info:NewSection("Info And More!")
 infoSection:NewLabel("Thank You For Using BlxChet V1!")
 infoSection:NewLabel("We plan to update often!")
 infoSection:NewLabel("We are not responsible for any Bans using this.")
-Section:NewLabel("Fun Fact! This script has over 12750 lines of code!")
+infoSection:NewLabel("Fun Fact! This script has over 12750 lines of code!")
 infoSection:NewLabel("Creation Date: June 14 2024")
